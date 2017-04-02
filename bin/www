@@ -33,17 +33,34 @@ server.on('listening', onListening);
 io.on('connection', function(socket){
   count_clients++;
   console.log(count_clients+' user connected');
+  console.log("Socket message");
   socket.emit('first', {val : "hey getting it"});
 
   socket.on('conn', function(data){
     console.log("communication came in server again");
   })
 
-  socket.on('disconnect', function(){
+  socket.on('disconnect', function(data){
     count_clients--;
     console.log(count_clients+' user connected');
     console.log('user disconnected');
+    console.log(socket.adapter.rooms);
   });
+  
+  socket.on('click', function(data){
+    test();
+  })
+  
+  function test(){
+    console.log("hey");
+    var count = 1;
+    for(var i in Object.keys(socket.adapter.rooms)){
+      console.log(Object.keys(socket.adapter.rooms)[i]);
+      socket.broadcast.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', {val : count});
+      count++;
+    }
+  }
+  
 });
 
 /**

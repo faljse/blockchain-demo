@@ -1,16 +1,28 @@
 
 <h1>VidPay hey</h1>
-
+<button onclick="test()">Click</button>
 <!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> -->
 <script src="./javascripts/lib/sha256.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
 <script>
   var socket = io.connect();
+  console.log("test");
+  
   socket.on('first', function(data){
+    console.log(socket.id);
     console.log("coming in on first");
     socket.emit('conn', { my: 'data' });
   });
+  
+  socket.on('foo', function(data){
+    console.log('foo'+socket.id);
+    console.log("test test test" + data.val);
+  })
+  
+  function test(){
+    socket.emit('click', {});
+  }
 
   
 </script>
