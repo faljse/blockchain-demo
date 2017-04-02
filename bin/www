@@ -48,14 +48,19 @@ io.on('connection', function(socket){
   });
   
   socket.on('clientData', function(data){
-    distData();
+    distData(data);
+    console.log(data);
   })
   
-  function distData(){
-    var count = 1;
+  function distData(data){
+    var maxNoice = 100000;
+    var numClients = Object.keys(socket.adapter.rooms).length;
+    var distribution = maxNoice/numClients;
     for(var i in Object.keys(socket.adapter.rooms)){
-      socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', {blockNum : count, });
-      count++;
+      clientNoiceHigh = distribution*(i+1);
+      clientNoiceLow = distribution*(i+1)-(distribution-1);
+      range = [clientNoiceLow,clientNoiceHigh];
+      socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', {Data:data, Range: range});
     }
   }
   
