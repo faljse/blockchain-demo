@@ -7,6 +7,8 @@
 var app = require('../app');
 var debug = require('debug')('zurveys:server');
 var http = require('http');
+var socketio = require('socket.io');
+var count_clients = 0;
 
 /**
  * Get port from environment and store in Express.
@@ -20,7 +22,7 @@ app.set('port', port);
  */
 
 var server = http.createServer(app);
-
+var io = socketio.listen(server);
 /**
  * Listen on provided port, on all network interfaces.
  */
@@ -28,6 +30,21 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+io.on('connection', function(socket){
+  count_clients++;
+  console.log(count_clients+' user connected');
+  socket.emit('first', {val : "hey getting it"});
+
+  socket.on('conn', function(data){
+    console.log("communication came in server again");
+  })
+
+  socket.on('disconnect', function(){
+    count_clients--;
+    console.log(count_clients+' user connected');
+    console.log('user disconnected');
+  });
+});
 
 /**
  * Normalize a port into a number, string, or false.
