@@ -29,22 +29,26 @@ function updateChain(block, chain) {
     updateHash(x, chain);
   }
 }
+console.log('lala')
+
 var socket = io.connect();
+
+console.log('foobar')
 
 function mine(block, chain, isChain) {
   var found = false;
   socket.emit('clientData', {data: 'hi, Im the data'});
-  for (var x = 0; x <= 500000 && !found; x++) {
-    $('#block'+block+'chain'+chain+'nonce').val(x);
-    $('#block'+block+'chain'+chain+'hash').val(sha256(block, chain));
-    if ($('#block'+block+'chain'+chain+'hash').val().substr(0, 4) === '0000') {
-      found = true;
-      if (isChain) {
-        updateChain(block, chain);
-      }
-      else {
-        updateState(block, chain);
-      }
-    }
-  }
+  // for (var x = 0; x <= 500000 && !found; x++) {
+    // $('#block'+block+'chain'+chain+'nonce').val(x);
+    // $('#block'+block+'chain'+chain+'hash').val(sha256(block, chain));
+    // if ($('#block'+block+'chain'+chain+'hash').val().substr(0, 4) === '0000') {
+    //   found = true;
+    //   if (isChain) {
+    //     updateChain(block, chain);
+    //   }
+    //   else {
+    //     updateState(block, chain);
+    //   }
+    // }
+  // }
 }

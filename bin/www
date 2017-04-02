@@ -48,8 +48,9 @@ io.on('connection', function(socket){
   });
   
   socket.on('clientData', function(data){
-    distData(data);
     console.log(data);
+    //distData(data);
+    
   })
   
   function distData(data){
