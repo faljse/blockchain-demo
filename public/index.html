@@ -17,20 +17,23 @@
     //console.log('foo'+socket.id);
     var flag = true;
     var number = data.number;
-    var data = data.data;
-    //var low = data.range[0];
-    //var high = data.range[0];
-    for(var i = 1; i <= 2; i++){
-      var temp = number + i + data;
+    var actData = data.data;
+    //console.log(data);
+    var low = data.range[0];
+    var high = data.range[1];
+    for(var i = low; i <= high; i++){
+      var temp = number + i + actData;
       if(CryptoJS.SHA256(temp).toString().substring(0,4) === '0000'){
         data.nonce = i;
         data.result = CryptoJS.SHA256(temp).toString();
         flag = false;
         socket.emit('feedbackHash', data);
+        console.log("It found it");
         break;
       }
     }
     if(flag){
+      console.log("It didn't find it");
       data.result = 0;
       socket.emit('feedbackHash', data);
     }

@@ -10,6 +10,7 @@ var socketio = require('socket.io');
 var count_clients = 0;
 var messageRecieved = 0;
 var distribution = 50000;
+var found = false;
 
 /**
  * Get port from environment and store in Express.
@@ -40,12 +41,20 @@ io.on('connection', function(socket){
   socket.emit('first', {val : "hey getting it"});
 
   socket.on('feedbackHash', function(data){
+    //console.log(data.result);
     messageRecieved++;
-    if(messageRecieved == Object.keys(socket.adapter.rooms).length){
-      if(data.result != 0){
+    if(data.result != 0 && !found){
         //send back to server
-      }else if(data.result == 0){
-        //distribution ++;
+        found = true;
+       console.log("In feedbackHash id is "+data.id);
+        socket.to(data.id).emit('recev', data);
+    }
+    if((messageRecieved == (Object.keys(socket.adapter.rooms).length-1)) && (!found)){
+      // if(data.result != 0){
+      //   //send back to server
+      // }else 
+      if(data.result == 0){
+        distribution = distribution + 50000;
         distData(data);
       }else{
       console.log('Error with Hash Alg');
@@ -62,17 +71,19 @@ io.on('connection', function(socket){
   });
   
   socket.on('clientData', function(data){
+    found = false;
     distData(data);
   })
   
   function distData(data){
+    console.log("In distData id is "+data.id);
     var count = 1;
     var numClients = Object.keys(socket.adapter.rooms).length;
     for(var i in Object.keys(socket.adapter.rooms)){
       if(data.id != Object.keys(socket.adapter.rooms)[i]){
       var High = distribution*(count);
       var Low = distribution*(count)-(distribution-1);
-      console.log(Low);
+      //console.log(Low);
       var range = [Low, High];
       data.range = range;
       socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', data);

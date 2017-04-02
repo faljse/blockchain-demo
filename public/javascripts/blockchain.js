@@ -32,10 +32,18 @@ function updateChain(block, chain) {
 
 var socket = io.connect();
 
+socket.on('recev', function(data){
+  // do some shit here to update the data and make it green
+    console.log("Getting in receive")
+    console.log(data);
+});
 
 function mine(block, chain, isChain) {
   var found = false;
   socket.emit('clientData', getText2(block, chain));
+  // do some shit here with making it red
+  
+
   // for (var x = 0; x <= 500000 && !found; x++) {
     // $('#block'+block+'chain'+chain+'nonce').val(x);
     // $('#block'+block+'chain'+chain+'hash').val(sha256(block, chain));
@@ -50,3 +58,5 @@ function mine(block, chain, isChain) {
     // }
   // }
 }
+
+
