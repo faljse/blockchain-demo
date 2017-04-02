@@ -29,11 +29,9 @@ function updateChain(block, chain) {
     updateHash(x, chain);
   }
 }
-console.log('lala')
 
 var socket = io.connect();
 
-console.log('foobar')
 
 function mine(block, chain, isChain) {
   var found = false;
