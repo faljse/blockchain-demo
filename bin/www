@@ -37,8 +37,7 @@ server.on('listening', onListening);
 io.on('connection', function(socket){
   count_clients++;
   console.log(count_clients+' user connected');
-  console.log("Socket message");
-  socket.emit('first', {val : "hey getting it"});
+  //socket.emit('first', {val : "hey getting it"});
 
   socket.on('feedbackHash', function(data){
     //console.log(data.result);
@@ -65,9 +64,9 @@ io.on('connection', function(socket){
 
   socket.on('disconnect', function(data){
     count_clients--;
+    console.log('a user got disconnected');
     console.log(count_clients+' user connected');
-    console.log('user disconnected');
-    console.log(socket.adapter.rooms);
+    //console.log(socket.adapter.rooms);
   });
   
   socket.on('clientData', function(data){
