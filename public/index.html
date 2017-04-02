@@ -15,9 +15,25 @@
   
   socket.on('foo', function(data){
     //console.log('foo'+socket.id);
-    console.log(data.number);
-    console.log(data.nonce);
-    console.log(data.data);
+    var temp = true;
+    var number = data.number;
+    var data = data.data;
+    //var low = data.range[0];
+    //var high = data.range[0];
+    for(var i = 1; i <= 2; i++){
+      var temp = number + i + data;
+      if(CryptoJS.SHA256(temp).toString().substring(0,4) === '0000'){
+        data.nonce = i;
+        data.result = CryptoJS.SHA256(temp).toString();
+        flag = false;
+        socket.emit('feedbackHash', data);
+        break;
+      }
+    }
+    if(flag){
+      data.result = 0;
+      socket.emit('feedbackHash', data);
+    }
   });
 
 </script>

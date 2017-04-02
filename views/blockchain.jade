@@ -31,7 +31,8 @@ block content
     }
 
         function getText2(block, chain) {
-          return { 
+          return {
+            "id" : socket.id,
             "number" : $ ('#block'+block+'chain'+chain+'number').val(),
             "nonce" : 0,
             "data" : $('#block'+block+'chain'+chain+'data').val()+
