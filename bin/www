@@ -47,15 +47,14 @@ io.on('connection', function(socket){
     console.log(socket.adapter.rooms);
   });
   
-  socket.on('click', function(data){
-    test();
+  socket.on('clientData', function(data){
+    distData();
   })
   
-  function test(){
+  function distData(){
     var count = 1;
     for(var i in Object.keys(socket.adapter.rooms)){
-      //console.log(Object.keys(socket.adapter.rooms)[i]);
-      socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', {val : count});
+      socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', {blockNum : count, });
       count++;
     }
   }
