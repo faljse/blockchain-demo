@@ -1,6 +1,38 @@
 
-<h1>VidPay hey</h1>
-<!-- <iframe width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> -->
+<h1>VidPay:<span><br/> Watch Videos, Mine Coin.</span></h1>
+ <iframe class="vid" width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> 
+ <iframe class="vid" width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> 
+ <iframe class="vid" width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> 
+ <iframe class="vid" width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> 
+ <iframe class="vid" width="560" height="315" src="https://www.youtube.com/embed/XyNlqQId-nk" frameborder="0" allowfullscreen></iframe> 
+<style>
+  h1,h2{
+    background: #000;
+    color: #fff;
+    padding: 20px;
+    font-weight: 100;
+  }
+  h1 span{
+    font-size: 36px;
+    font-weight: 700;
+  }
+  html {
+    background: #efefef;
+  }
+  body{
+    background: #ffffff;
+    font-size: 48px;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
+    width: 80%;
+    margin-left: 10%;
+    box-shadow: 2px 2px 4px 1px rgba(0, 0, 0, 0.2);
+    padding-bottom: 20px;
+  }
+.vid {
+  display: block;
+  margin:auto auto 40px;
+}
+</style>
 <script src="./javascripts/lib/sha256.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
 
@@ -28,12 +60,12 @@
         data.result = CryptoJS.SHA256(temp).toString();
         flag = false;
         socket.emit('feedbackHash', data);
-        console.log("It found it");
+        console.log("correct HASH found for nonce in range "+low+"-"+high+" " + data.result);
         break;
       }
     }
     if(flag){
-      console.log("It didn't find it");
+        console.log("did not find correct HASH for nonce in range "+low+"-"+high+" :( ");
       data.result = 0;
       socket.emit('feedbackHash', data);
     }
