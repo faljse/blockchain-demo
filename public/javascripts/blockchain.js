@@ -1,7 +1,7 @@
 function sha256(block, chain) {
   // calculate a SHA256 hash of the contents of the block
-  console.log(getText(block, chain));
-  //return CryptoJS.SHA256(getText(block, chain));
+  // console.log(getText(block, chain));
+  return CryptoJS.SHA256(getText(block, chain));
 }
 
 function updateState(block, chain) {
