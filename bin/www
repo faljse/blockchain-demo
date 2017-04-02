@@ -8,6 +8,8 @@ var debug = require('debug')('zurveys:server');
 var http = require('http');
 var socketio = require('socket.io');
 var count_clients = 0;
+var messageRecieved = 0;
+var distribution = 50000;
 
 /**
  * Get port from environment and store in Express.
@@ -27,6 +29,7 @@ var io = socketio.listen(server);
  * Listen on provided port, on all network interfaces.
  */
 
+
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
@@ -36,8 +39,19 @@ io.on('connection', function(socket){
   console.log("Socket message");
   socket.emit('first', {val : "hey getting it"});
 
-  socket.on('conn', function(data){
-    console.log("communication came in server again");
+  socket.on('feedbackHash', function(data){
+    messageRecieved++;
+    if(messageRecieved == Object.keys(socket.adapter.rooms).length){
+      if(data.result != 0){
+        //send back to server
+      }else if(data.result == 0){
+        //distribution ++;
+        distData(data);
+      }else{
+      console.log('Error with Hash Alg');
+      }
+    }
+
   })
 
   socket.on('disconnect', function(data){
@@ -48,20 +62,22 @@ io.on('connection', function(socket){
   });
   
   socket.on('clientData', function(data){
-    console.log(data);
     distData(data);
-    
   })
   
   function distData(data){
-    var maxNoice = 100000;
+    var count = 1;
     var numClients = Object.keys(socket.adapter.rooms).length;
-    var distribution = maxNoice/numClients;
     for(var i in Object.keys(socket.adapter.rooms)){
-      clientNoiceHigh = distribution*(i+1);
-      clientNoiceLow = distribution*(i+1)-(distribution-1);
-      range = [clientNoiceLow,clientNoiceHigh];
+      if(data.id != Object.keys(socket.adapter.rooms)[i]){
+      var High = distribution*(count);
+      var Low = distribution*(count)-(distribution-1);
+      console.log(Low);
+      var range = [Low, High];
+      data.range = range;
       socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', data);
+      count++;
+      }
     }
   }
   
