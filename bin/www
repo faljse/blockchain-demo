@@ -61,7 +61,7 @@ io.on('connection', function(socket){
       clientNoiceHigh = distribution*(i+1);
       clientNoiceLow = distribution*(i+1)-(distribution-1);
       range = [clientNoiceLow,clientNoiceHigh];
-      socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', {Data:data, Range: range});
+      socket.to(Object.keys(socket.adapter.rooms)[i]).emit('foo', data);
     }
   }
   

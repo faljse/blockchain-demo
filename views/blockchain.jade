@@ -30,6 +30,13 @@ block content
              $('#block'+block+'chain'+chain+'previous').val();
     }
 
+        function getText2(block, chain) {
+      return { "number" : $ ('#block'+block+'chain'+chain+'number').val(),
+              "nonce" : 0,
+             "data" : $('#block'+block+'chain'+chain+'data').val()+
+             $('#block'+block+'chain'+chain+'previous').val()};
+    }
+
     function setup(block, chain) {
       updateHash(block, chain);
       $('#block'+block+'chain'+chain+'mineButton').click(function(e) {

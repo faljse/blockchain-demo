@@ -35,7 +35,7 @@ var socket = io.connect();
 
 function mine(block, chain, isChain) {
   var found = false;
-  socket.emit('clientData', {data: 'hi, Im the data'});
+  socket.emit('clientData', getText2(block, chain));
   // for (var x = 0; x <= 500000 && !found; x++) {
     // $('#block'+block+'chain'+chain+'nonce').val(x);
     // $('#block'+block+'chain'+chain+'hash').val(sha256(block, chain));
